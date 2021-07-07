@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
-
+import { validate } from 'class-validator'
+ 
 import User from '../models/User'
 
 class UserController {
@@ -25,9 +26,20 @@ class UserController {
         }
 
         const newUser = await repository.create({name, email, phoneNumber, password})
-        await repository.save(newUser)
+        validate(newUser).then(async errors =>  {
+            if(errors.length > 0) {
+                const allErrors: Array<any> = []
+                errors.forEach(error => {
+                    allErrors.push(error.constraints)
+                });
+                return res.json({erros: allErrors})     
+            }
+            else {
+                await repository.save(newUser)
+                return res.json(newUser)
+            }
+        })
         
-        return res.json(newUser)
     }
 }
 
