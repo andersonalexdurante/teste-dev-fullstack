@@ -10,7 +10,7 @@ class AuthController {
         const repository = getRepository(User)
         const {email, password} = req.body
 
-      
+        
         const user = await repository.findOne({where: {
             email: email
         }})
