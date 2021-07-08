@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { MinLength, IsString, IsDecimal, IsInt, MaxLength } from 'class-validator'
 import User from "./User";
 
@@ -8,8 +8,8 @@ export class Property {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable: false, type: "date"})
-    publicationDate: Date
+    @Column({nullable: false})
+    publicationDate: string
 
     @Column({nullable: false})
     @IsString()
@@ -61,6 +61,12 @@ export class Property {
     @Column({nullable: false})
     @IsInt()
     houseNumber: number
+
+    @BeforeInsert()
+    addPuclicationDate(){
+        const date = new Date()
+        this.publicationDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear}`
+    }
 
 /**
  * relationship between one user (a property only have 1 owner) 

@@ -13,7 +13,7 @@ export class Properties1625716432680 implements MigrationInterface {
             },
             {
                 name: "publicationDate",
-                type: "date",
+                type: "varchar",
             },
             {
                 name: "title",
