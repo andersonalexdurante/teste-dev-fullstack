@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, OneToMany} from "typeorm";
 import { IsEmail, IsPhoneNumber, IsString, MinLength } from 'class-validator'
 import * as bcrypt from 'bcryptjs'
+import { Property } from "./Property";
 
 
 @Entity()
@@ -25,10 +26,19 @@ export default class User {
     @MinLength(8)
     password: string
 
+/**
+ * hash password with bcrypt
+ */
     @BeforeInsert()
     @BeforeUpdate()
     hashPassword(){
         this.password = bcrypt.hashSync(this.password, 8)
     }
+
+/**
+ * relationship between many properties (the user can have many properties)
+ */
+    @OneToMany(() => Property, property => property.userId)
+    properties: Property[];
 
 }

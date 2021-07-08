@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { MinLength, IsString, IsDecimal, IsInt, MaxLength } from 'class-validator'
+import User from "./User";
 
 @Entity()
 export class Property {
@@ -61,4 +62,11 @@ export class Property {
     @IsInt()
     houseNumber: number
 
+/**
+ * relationship between one user (a property only have 1 owner) 
+ */
+    @OneToOne(() => User)
+    @JoinColumn()
+    userId: User
+    
 }
