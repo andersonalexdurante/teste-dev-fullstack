@@ -32,7 +32,7 @@ class UserController {
                 errors.forEach(error => {
                     allErrors.push(error.constraints)
                 });
-                return res.json({erros: allErrors})     
+                return res.json({errors: allErrors})     
             }
             else {
                 await repository.save(newUser)

@@ -4,7 +4,7 @@ export class Properties1625716432680 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         queryRunner.createTable(new Table({
-            name: "property",
+            name: "properties",
             columns: [{
                 name: "id",
                 type: "int",
@@ -75,21 +75,28 @@ export class Properties1625716432680 implements MigrationInterface {
                 type: "varchar",
                 isNullable: false,
             },
+            {
+                name: "userId",
+                type: "int",
+                isNullable: false
+            }
             ]
         }))
         
-        queryRunner.createForeignKey("property", new TableForeignKey({
+        await queryRunner.createForeignKey("properties", new TableForeignKey({
             columnNames: ["userId"],
-            referencedTableName: "user",
             referencedColumnNames: ["id"],
-            onDelete: "CASCADE",
-            onUpdate: "CASCADE"
-        }))
+            referencedTableName: "users",
+            onDelete: "CASCADE"
+        }));
     }
     
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.dropTable("property")
+        const table = queryRunner.getTable('properties')
+        const foreignKey = (await table).foreignKeys.find(fk => fk.columnNames.indexOf("userId") !== -1);
+        await queryRunner.dropForeignKey("properties", foreignKey);
+        queryRunner.dropTable("properties")
     }
 
 }
