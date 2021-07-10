@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 import { validate } from 'class-validator'
  
-import User from '../models/User'
+import User from '../models/Users'
 
 class UserController {
     async store(req: Request, res: Response) {
@@ -25,7 +25,7 @@ class UserController {
             return res.send('This phone number is already registered')
         }
 
-        const newUser = await repository.create({name, email, phoneNumber, password})
+        const newUser = repository.create({ name, email, phoneNumber, password })
         validate(newUser).then(async errors =>  {
             if(errors.length > 0) {
                 const allErrors: Array<any> = []
@@ -35,6 +35,7 @@ class UserController {
                 return res.json({errors: allErrors})     
             }
             else {
+                
                 await repository.save(newUser)
                 return res.json(newUser)
             }

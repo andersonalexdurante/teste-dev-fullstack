@@ -1,11 +1,11 @@
 import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, OneToMany} from "typeorm";
 import { IsEmail, IsPhoneNumber, IsString, MinLength } from 'class-validator'
 import * as bcrypt from 'bcryptjs'
-import { Property } from "./Property";
+import Properties from "./Properties";
 
 
 @Entity()
-export default class User {
+export default class Users {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -38,7 +38,7 @@ export default class User {
 /**
  * relationship between many properties (the user can have many properties)
  */
-    @OneToMany(() => Property, property => property.userId)
-    properties: Property[];
+    @OneToMany(() => Properties, properties => properties.userId)
+    properties: Properties[];
 
 }

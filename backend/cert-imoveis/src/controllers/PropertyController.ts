@@ -1,12 +1,18 @@
 import { validate } from 'class-validator'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
-import { Property } from '../models/Property'
+import Properties from '../models/Properties'
 
 class PropertyController {
 
+    async index(req: Request, res: Response) {
+        const repository = getRepository(Properties)
+
+        return res.send("ok")
+    }
+
     async store(req: Request, res: Response){
-        const repository = getRepository(Property)
+        const repository = getRepository(Properties)
         const {title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price} = req.body
 
         if(!title || !area || !cep || !address || !city || !uf || !district || !patio || complement || houseNumber ||description || price){
@@ -21,7 +27,7 @@ class PropertyController {
             return res.send('This property is already registered')
         }
 
-        const newProperty = await repository.create({title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price})
+        const newProperty = repository.create({ title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price })
         validate(newProperty).then(async errors => {
             if(errors.length > 0) {
                 const allErrors: Array<any> = []

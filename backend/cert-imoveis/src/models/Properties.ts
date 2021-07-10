@@ -1,9 +1,9 @@
 import {BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { MinLength, IsString, IsDecimal, IsInt, MaxLength } from 'class-validator'
-import User from "./User";
+import User from "./Users";
 
 @Entity()
-export class Property {
+export default class Properties {
 
     @PrimaryGeneratedColumn()
     id: number;
