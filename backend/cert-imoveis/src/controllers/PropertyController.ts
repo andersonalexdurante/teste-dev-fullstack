@@ -8,7 +8,8 @@ class PropertyController {
     async index(req: Request, res: Response) {
         const repository = getRepository(Properties)
 
-        return res.send("ok")
+        const properties = await repository.createQueryBuilder('properties').getMany()
+        return res.json(properties)
     }
 
     async store(req: Request, res: Response){
