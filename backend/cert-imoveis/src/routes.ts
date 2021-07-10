@@ -10,6 +10,6 @@ const router = Router()
 router.post('/users', UserController.store)
 router.post('/auth', AuthController.authenticate)
 
-router.get('/properties', AuthMiddleware, PropertyController.index)
+router.post('/property', AuthMiddleware, PropertyController.store)
 
 export default router

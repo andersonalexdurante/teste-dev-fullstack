@@ -15,7 +15,7 @@ class PropertyController {
         const repository = getRepository(Properties)
         const {title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price} = req.body
 
-        if(!title || !area || !cep || !address || !city || !uf || !district || !patio || complement || houseNumber ||description || price){
+        if(!title || !area || !cep || !address || !city || !uf || !district || !patio || !complement || !houseNumber || !description || !price){
             return res.json({
                 message: 'Fill the fields'
             })

@@ -21,12 +21,12 @@ export default class Properties {
     @MinLength(30)
     description: string
 
-    @Column({nullable: false, type: 'decimal'})
-    @IsDecimal()
+    @Column({nullable: false, type: 'float'})
+    //@IsDecimal()
     price: number
 
-    @Column({nullable: false})
-    @IsDecimal()
+    @Column({nullable: false, type: 'float'})
+    //@IsDecimal()
     area: number
 
     @Column({nullable: false})
@@ -65,7 +65,7 @@ export default class Properties {
     @BeforeInsert()
     addPuclicationDate(){
         const date = new Date()
-        this.publicationDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear}`
+        this.publicationDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
 
 /**
