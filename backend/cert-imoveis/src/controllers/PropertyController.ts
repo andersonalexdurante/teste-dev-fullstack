@@ -2,6 +2,7 @@ import { validate } from 'class-validator'
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 import Properties from '../models/Properties'
+import Users from '../models/Users'
 
 class PropertyController {
 
@@ -28,7 +29,12 @@ class PropertyController {
             return res.send('This property is already registered')
         }
 
-        const newProperty = repository.create({ title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price })
+        
+
+        const userRepo = getRepository(Users)
+        const userLogged = await userRepo.findOne({where: {id: req.userId}})
+        console.log(`USUÁRIO LOGADO: ${req.userId}`)
+        const newProperty = repository.create({ title, area, cep, address, city, uf, district, patio, complement, houseNumber, description, price, user: userLogged })
         validate(newProperty).then(async errors => {
             if(errors.length > 0) {
                 const allErrors: Array<any> = []
@@ -39,7 +45,7 @@ class PropertyController {
             }
             else {
                 await repository.save(newProperty)
-                const returnProperty = await repository.findOne({where: {title: newProperty.title, area: newProperty.area, cep: newProperty.cep}})
+                const returnProperty = await repository.findOne({where: {title: newProperty.title, area: newProperty.area, cep: newProperty.cep}, relations: ["user"]})
                 return res.json(returnProperty)
             }
         })

@@ -1,6 +1,6 @@
-import {BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import { MinLength, IsString, IsDecimal, IsInt, MaxLength } from 'class-validator'
-import User from "./Users";
+import Users from "./Users";
 
 @Entity()
 export default class Properties {
@@ -71,8 +71,6 @@ export default class Properties {
 /**
  * relationship between one user (a property only have 1 owner) 
  */
-    @OneToOne(() => User)
-    @JoinColumn()
-    userId: User
-    
+    @ManyToOne(() => Users, (user: Users) => user.properties)
+    user: Users;
 }

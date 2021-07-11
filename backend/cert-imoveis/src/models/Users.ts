@@ -38,7 +38,7 @@ export default class Users {
 /**
  * relationship between many properties (the user can have many properties)
  */
-    @OneToMany(() => Properties, properties => properties.userId)
+    @OneToMany(() => Properties, properties => properties.user)
     properties: Properties[];
 
 }
